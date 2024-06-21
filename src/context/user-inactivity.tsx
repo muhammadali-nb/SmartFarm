@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { usePathname, useRouter } from "expo-router";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { AppState, AppStateStatus } from "react-native";
 import { MMKV } from "react-native-mmkv";
@@ -8,11 +8,13 @@ const storage = new MMKV({
 	id: "user-inactivity",
 });
 
-const LockTime = 3000;
+const LockTime = 10000;
 export const UserInactivity = ({ children }: PropsWithChildren) => {
 	const { isLocalAuthEnabled } = useLocalAuth();
 	const appState = useRef(AppState.currentState);
 	const router = useRouter();
+	const pathname = usePathname();
+
 	useEffect(() => {
 		if (isLocalAuthEnabled) {
 			const subscription = AppState.addEventListener(
@@ -21,10 +23,11 @@ export const UserInactivity = ({ children }: PropsWithChildren) => {
 			);
 			return () => subscription.remove();
 		}
-	}, [isLocalAuthEnabled]);
+	}, [isLocalAuthEnabled, pathname]);
 
 	const handleAppStateChange = (nextAppState: AppStateStatus) => {
 		if (nextAppState === "inactive") {
+			if (pathname === "/lock") return;
 			router.push("/(modals)/white");
 		} else {
 			if (router.canGoBack()) {
