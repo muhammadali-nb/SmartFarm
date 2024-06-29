@@ -1,7 +1,6 @@
-import * as LocalAuthentication from "expo-local-authentication";
 import { router } from "expo-router";
-import * as SecureStore from "expo-secure-store";
 import { useEffect, useLayoutEffect, useState } from "react";
+import * as LocalAuthentication from "expo-local-authentication";
 import { Animated, Text, View } from "react-native";
 import CustomDealpad from "src/components/global/custom-dealpad";
 import DealpadPin from "src/components/global/dealpad-pin";
@@ -9,6 +8,7 @@ import DealpadPin from "src/components/global/dealpad-pin";
 import { useLocalAuth } from "src/hooks/useLocalAuth";
 import { useMounted } from "src/hooks/useMounted";
 import { useShakeAnimation } from "src/hooks/useShakeAnimation";
+import { checkBiometricType, handlePasswordAuth } from "src/utils/local-auth";
 
 const pinSize = 4;
 
@@ -41,28 +41,8 @@ const LocalAuthNumpad = () => {
 	}, []);
 
 	useLayoutEffect(() => {
-		checkBiometricType();
+		checkBiometricType().then((type) => setBiometricType(type));
 	}, []);
-
-	const checkBiometricType = async () => {
-		const supportedTypes =
-			await LocalAuthentication.supportedAuthenticationTypesAsync();
-		if (
-			supportedTypes.includes(
-				LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION
-			)
-		) {
-			setBiometricType("Face ID");
-		} else if (
-			supportedTypes.includes(
-				LocalAuthentication.AuthenticationType.FINGERPRINT
-			)
-		) {
-			setBiometricType("Отпечаток пальца");
-		} else {
-			setBiometricType(null);
-		}
-	};
 
 	const handleBiometricAuth = async () => {
 		let promptMessage = "Пожалуйста, подтвердите свою личность";
@@ -86,35 +66,21 @@ const LocalAuthNumpad = () => {
 		}
 	};
 
-	const handlePasswordAuth = async () => {
-		if (password.length <= 0) {
-			setAuthStatus("Пожалуйста, введите пароль");
-			return;
-		}
-
-		// Пример: проверка пароля
-		if (
-			password.join("") !== (await SecureStore.getItemAsync("savedPassword"))
-		) {
-			shake();
-			setAuthStatus("Неправильный пароль");
-			setPassword([]);
-			return;
-		}
-
-		// Добавьте здесь вашу логику для перехода на следующий экран или выполнения действий после успешной аутентификации
-		setAuthStatus("Аутентификация успешна");
-
-		setTimeout(() => {
-			router.push("/home");
-			setPassword([]);
-			setAuthStatus("");
-		}, 300);
-	};
-
 	useEffect(() => {
 		if (password.length === pinSize) {
-			handlePasswordAuth();
+			handlePasswordAuth(password)
+				.then(() => {
+					setTimeout(() => {
+						router.push("/home");
+						setPassword([]);
+						setAuthStatus("");
+					}, 300);
+				})
+				.catch((err) => {
+					shake();
+					setAuthStatus(err.message);
+					setPassword([]);
+				});
 		}
 	}, [password]);
 

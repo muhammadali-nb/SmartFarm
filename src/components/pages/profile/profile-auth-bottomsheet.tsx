@@ -10,6 +10,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import CustomBackdrop from "src/components/global/custom-backdrop";
 import { useLocalAuth } from "src/hooks/useLocalAuth";
 import { useRouter } from "expo-router";
+import { checkBiometricType } from "src/utils/local-auth";
 
 interface IProps {
 	title?: string;
@@ -25,39 +26,13 @@ const ProfileAuthBottomSheet = forwardRef<BottomSheet, IProps>((props, ref) => {
 	const [biometricType, setBiometricType] = useState<string | null>(null);
 	const router = useRouter();
 	useLayoutEffect(() => {
-		checkBiometricType();
+		checkBiometricType().then((type) => setBiometricType(type));
 	}, []);
 
-	/**
-	 * Checks if there is a saved password in SecureStore, if not, redirects to add-auth page
-	 */
 	const checkSavedPassword = async () => {
-		// Get the password from SecureStore
 		const password = await SecureStore.getItemAsync("savedPassword");
-
-		// If there is no password, redirect to add-auth page
 		if (!password) {
 			router.push("/local-auth/add-auth");
-		}
-	};
-
-	const checkBiometricType = async () => {
-		const supportedTypes =
-			await LocalAuthentication.supportedAuthenticationTypesAsync();
-		if (
-			supportedTypes.includes(
-				LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION
-			)
-		) {
-			setBiometricType("Face ID");
-		} else if (
-			supportedTypes.includes(
-				LocalAuthentication.AuthenticationType.FINGERPRINT
-			)
-		) {
-			setBiometricType("Отпечаток пальца");
-		} else {
-			setBiometricType(null);
 		}
 	};
 
