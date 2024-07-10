@@ -52,6 +52,17 @@ const TabsLayout = () => {
 						},
 					}}
 				/>
+				<Tabs.Screen
+					name="video-chat"
+					options={{
+						title: "Видео чат",
+						headerShown: false,
+						// tabBarIcon: ({ focused }) => {
+						// 	const color = focused ? "#6236ff" : "#948ba0";
+						// 	return <FontAwesome5 name="user-alt" size={20} color={color} />;
+						// },
+					}}
+				/>
 			</Tabs>
 		</PortalProvider>
 	);

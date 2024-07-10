@@ -2,7 +2,7 @@ import { View, Image, TouchableOpacity } from "react-native";
 import Container from "src/components/global/container";
 import { Entypo } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useLocalAuth } from "src/hooks/useLocalAuth";
+import { useLocalAuth } from "src/hooks/use-local-auth";
 
 const HomeHeader = () => {
 	const insets = useSafeAreaInsets();

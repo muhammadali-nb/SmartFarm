@@ -6,8 +6,10 @@ import {
 	View,
 } from "react-native";
 
-import { Entypo, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { FlatList } from "react-native-gesture-handler";
+import Delete from "src/icons/delete";
+import FaceID from "src/icons/face-id";
 
 const { width } = Dimensions.get("window");
 
@@ -50,16 +52,23 @@ const CustomDealpad = ({
 								styles.dialPadContainer,
 							]}>
 							{item === "del" ? (
-								<Feather name="delete" size={30} color="black" />
+								// <Feather
+								// 	name="delete"
+								// 	size={30}
+								// 	color="black"
+								// 	strokeWidth={1}
+								// />
+								<Delete width={30} height={30} />
 							) : item === "biometric-auth" ? (
 								biometricAuthType !== "face-id" ? (
 									<Entypo name="fingerprint" size={38} color="black" />
 								) : (
-									<MaterialCommunityIcons
-										name="line-scan"
-										size={34}
-										color="black"
-									/>
+									// <MaterialCommunityIcons
+									// 	name="line-scan"
+									// 	size={34}
+									// 	color="black"
+									// />
+									<FaceID width={34} height={34} />
 								)
 							) : item === "space" ? (
 								<View />

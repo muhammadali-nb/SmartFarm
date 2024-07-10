@@ -19,8 +19,8 @@ import Button from "src/components/global/button";
 import User from "src/icons/user";
 import Unlock from "src/icons/unlock";
 
-import { useAuth } from "src/hooks/useAuth";
-import { useMounted } from "src/hooks/useMounted";
+import { useAuth } from "src/hooks/use-auth";
+import { useMounted } from "src/hooks/use-mounted";
 
 const AuthTripSchema = Yup.object().shape({
 	name: Yup.string()

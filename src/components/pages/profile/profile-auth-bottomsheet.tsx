@@ -4,11 +4,10 @@ import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSh
 import { forwardRef, useCallback, useLayoutEffect, useState } from "react";
 import { Switch, Text, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import * as LocalAuthentication from "expo-local-authentication";
 
 import { FontAwesome } from "@expo/vector-icons";
 import CustomBackdrop from "src/components/global/custom-backdrop";
-import { useLocalAuth } from "src/hooks/useLocalAuth";
+import { useLocalAuth } from "src/hooks/use-local-auth";
 import { useRouter } from "expo-router";
 import { checkBiometricType } from "src/utils/local-auth";
 

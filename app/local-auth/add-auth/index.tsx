@@ -40,6 +40,7 @@ const AddLocalAuth = () => {
 				}}
 				onChangeText={(text) => setPassword(text)}
 				value={password}
+				keyboardType="numeric"
 				placeholder="Пароль"
 				secureTextEntry={true}
 			/>

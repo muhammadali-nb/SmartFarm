@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { useLocalAuth } from "src/hooks/useLocalAuth";
+import { useLocalAuth } from "src/hooks/use-local-auth";
 
 const LocalAuthLayout = () => {
 	const { isAuthenticated } = useLocalAuth();

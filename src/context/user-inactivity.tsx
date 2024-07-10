@@ -2,7 +2,7 @@ import { usePathname, useRouter } from "expo-router";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { AppState, AppStateStatus } from "react-native";
 import { MMKV } from "react-native-mmkv";
-import { useLocalAuth } from "src/hooks/useLocalAuth";
+import { useLocalAuth } from "src/hooks/use-local-auth";
 
 const storage = new MMKV({
 	id: "user-inactivity",

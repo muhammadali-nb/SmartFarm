@@ -2,23 +2,21 @@ import { Alert, Text, View } from "react-native";
 import LocalAuthNumpad from "src/components/pages/local-auth/local-auth-numpad";
 
 const AuthenticationPage = () => {
+	
 	const showConfirmedAlert = () => {
 		Alert.alert(
 			"Alert Title",
 			"My Alert Msg",
 			[
-				{
-					text: "Cancel",
-					style: "cancel",
-				},
 				{ text: "OK", onPress: () => handleForgetPassword() },
+				{ text: "Cancel" },
 			],
+
 			{ cancelable: false }
 		);
 	};
 
 	const handleForgetPassword = () => {
-		// TODO: Implement forget password
 		console.log("logged out");
 	};
 

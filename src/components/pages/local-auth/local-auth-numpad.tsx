@@ -5,9 +5,9 @@ import { Animated, Text, View } from "react-native";
 import CustomDealpad from "src/components/global/custom-dealpad";
 import DealpadPin from "src/components/global/dealpad-pin";
 
-import { useLocalAuth } from "src/hooks/useLocalAuth";
-import { useMounted } from "src/hooks/useMounted";
-import { useShakeAnimation } from "src/hooks/useShakeAnimation";
+import { useLocalAuth } from "src/hooks/use-local-auth";
+import { useMounted } from "src/hooks/use-mounted";
+import { useShakeAnimation } from "src/hooks/use-shake-animation";
 import { checkBiometricType, handlePasswordAuth } from "src/utils/local-auth";
 
 const pinSize = 4;

@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
 import InputPassword from "src/components/global/input-password";
-import { useMounted } from "src/hooks/useMounted";
+import { useMounted } from "src/hooks/use-mounted";
 import * as Yup from "yup";
 
 const AnimatedView = Animated.View;

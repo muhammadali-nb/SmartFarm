@@ -65,6 +65,7 @@ const RootLayout = () => {
 							<Stack.Screen name="login" />
 							<Stack.Screen name="local-auth" />
 							<Stack.Screen name="about" />
+							<Stack.Screen name="room" />
 						</Stack>
 					</UserInactivity>
 				</LocalAuthProvider>
