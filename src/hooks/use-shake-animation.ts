@@ -1,7 +1,9 @@
 import { useRef, useCallback, useState } from "react";
 import { Animated, Easing, Vibration } from "react-native";
 
-export const useShakeAnimation = () => {
+type TypeShakingStatus = "waiting" | "shaking" | "end"
+
+export const useShakeAnimation = (): { shakeAnim: Animated.Value; shake: () => void; isShaking: TypeShakingStatus } => {
     const shakeAnim = useRef(new Animated.Value(0)).current;
     const [isShaking, setIsShaking] = useState<"waiting" | "shaking" | "end">("waiting");
 

@@ -6,10 +6,7 @@ import useWebRTC from "src/hooks/use-webrtc";
 
 const Room = () => {
 	const { id: roomID } = useLocalSearchParams<{ id: string }>();
-
-	const { clients, provideMediaRef, peerMediaElements } = useWebRTC(roomID);
-
-	console.log("clients", clients);
+	const { clients, provideMediaRef } = useWebRTC(roomID);
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -20,7 +17,7 @@ const Room = () => {
 					flexDirection: "row",
 					flexWrap: "wrap",
 				}}>
-				{clients.map((clientID) => (
+				{/* {clients.map((clientID) => (
 					<RTCView
 						key={clientID}
 						style={{
@@ -28,11 +25,7 @@ const Room = () => {
 							height: "50%",
 							backgroundColor: "red",
 						}}
-						zOrder={1}
-						ref={(node) => provideMediaRef(clientID, node)}
-						streamURL={peerMediaElements.current[clientID]?.srcObject?.toURL()}
-					/>
-				))}
+					/>))} */}
 			</View>
 			<Text>Connected Clients: {clients.length}</Text>
 		</View>

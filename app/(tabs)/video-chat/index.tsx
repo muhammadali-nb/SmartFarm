@@ -1,69 +1,57 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { View, StyleSheet, Button, Text } from "react-native";
+import { Link } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
 import {
-	RTCPeerConnection,
-	RTCView,
-	mediaDevices,
-	MediaStream,
-	MediaStreamTrack,
-} from "react-native-webrtc";
+	StyleSheet,
+	Text,
+	Touchable,
+	TouchableHighlight,
+	View,
+} from "react-native";
+import Button from "src/components/global/button";
+import Container from "src/components/global/container";
+import socket from "src/socket";
+import ACTIONS from "src/socket/actions";
+import "react-native-get-random-values";
+import { v4 } from "uuid";
 
-const LocalVideo: React.FC = () => {
-	const [localStream, setLocalStream] = useState<MediaStream | null>(null);
-	const localVideoRef = useRef(null);
+export default function App() {
+	const [rooms, updateRooms] = useState([]);
+	const rootNode = useRef(null);
 
 	useEffect(() => {
-		// Function to start capturing the video stream
-		const startCapture = async () => {
-			try {
-				const stream = await mediaDevices.getUserMedia({
-					audio: true,
-					video: true,
-				});
-				setLocalStream(stream);
-			} catch (error) {
-				console.error("Error getting user media:", error);
+		socket.on(ACTIONS.SHARE_ROOMS, ({ rooms = [] } = {}) => {
+			if (rootNode.current) {
+				updateRooms(rooms);
 			}
-		};
-
-		startCapture();
-
-		return () => {
-			if (localStream) {
-				localStream
-					.getTracks()
-					.forEach((track: MediaStreamTrack) => track.stop());
-			}
-		};
+		});
 	}, []);
 
 	return (
-		<View style={styles.container}>
-			{localStream ? (
-				<RTCView
-					ref={localVideoRef}
-					streamURL={localStream.toURL()}
-					style={styles.video}
-					objectFit="cover"
-					mirror={true}
-				/>
-			) : (
-				<Text>No local stream</Text>
-			)}
+		<View ref={rootNode} style={styles.container}>
+			<Container>
+				<Text>Rooms:</Text>
+				<View>
+					{rooms.map((room) => (
+						<Link key={room} href={`/video-chat/${room}`}>
+							<Text>{room}</Text>
+						</Link>
+					))}
+				</View>
+				<Link href={`/room/${v4()}`} asChild>
+					<Text>Create Room</Text>
+				</Link>
+			</Container>
 		</View>
 	);
-};
+}
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
 	},
 	video: {
 		width: "100%",
 		height: "100%",
+		backgroundColor: "black",
 	},
 });
-
-export default LocalVideo;

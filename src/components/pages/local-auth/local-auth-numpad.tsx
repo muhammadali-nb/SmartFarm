@@ -16,7 +16,7 @@ const LocalAuthNumpad = () => {
 	const [authStatus, setAuthStatus] = useState(null);
 	const [password, setPassword] = useState([]);
 	const [biometricType, setBiometricType] = useState(null);
-	const { shake, shakeAnim } = useShakeAnimation();
+	const { shake, shakeAnim, isShaking } = useShakeAnimation();
 	const { isBiometricAuth } = useLocalAuth();
 	const isMounted = useMounted();
 	const dialPadContent = [
@@ -33,7 +33,7 @@ const LocalAuthNumpad = () => {
 		0,
 		"del",
 	];
-
+	
 	useEffect(() => {
 		if (isMounted && isBiometricAuth) {
 			handleBiometricAuth();
@@ -104,6 +104,7 @@ const LocalAuthNumpad = () => {
 						biometricType === "Face ID" ? "face-id" : "touch-id"
 					}
 					onPress={(item) => {
+						if (isShaking === "shaking") return;
 						if (item === "del") {
 							setPassword((prev) => prev.slice(0, prev.length - 1));
 						} else if (item === "biometric-auth") {
