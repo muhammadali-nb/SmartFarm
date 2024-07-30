@@ -1,7 +1,7 @@
-export const formatData = (data, numColumns) => {
+export const formatData = (data: Array<any>, numColumns: number) => {
     const numberOfFullRows = Math.floor(data.length / numColumns);
 
-   let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+    let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
     while (
         numberOfElementsLastRow !== numColumns &&
         numberOfElementsLastRow !== 0

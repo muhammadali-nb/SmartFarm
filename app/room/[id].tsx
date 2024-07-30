@@ -1,35 +1,43 @@
-import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Text, View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { RTCView } from "react-native-webrtc";
-import useWebRTC from "src/hooks/use-webrtc";
+import useWebRTC, { LOCAL_VIDEO } from "../../src/hooks/use-webrtc";
 
-const Room = () => {
-	const { id: roomID } = useLocalSearchParams<{ id: string }>();
-	const { clients, provideMediaRef } = useWebRTC(roomID);
+const Room: React.FC<{ roomID: string }> = ({ roomID }) => {
+	const { clients, streams } = useWebRTC(roomID);
 
 	return (
-		<View style={{ flex: 1 }}>
-			<View
-				style={{
-					flex: 1,
-					display: "flex",
-					flexDirection: "row",
-					flexWrap: "wrap",
-				}}>
-				{/* {clients.map((clientID) => (
-					<RTCView
-						key={clientID}
-						style={{
-							width: "50%",
-							height: "50%",
-							backgroundColor: "red",
-						}}
-					/>))} */}
-			</View>
-			<Text>Connected Clients: {clients.length}</Text>
+		<View style={styles.container}>
+			{clients.map((clientID) => (
+				<RTCView
+					key={clientID}
+					streamURL={streams[clientID]}
+					style={styles.video}
+					objectFit="cover"
+				/>
+			))}
+			{streams[LOCAL_VIDEO] && (
+				<RTCView
+					key={LOCAL_VIDEO}
+					streamURL={streams[LOCAL_VIDEO]}
+					style={styles.video}
+					objectFit="cover"
+				/>
+			)}
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	video: {
+		width: "100%",
+		height: "50%",
+	},
+});
 
 export default Room;

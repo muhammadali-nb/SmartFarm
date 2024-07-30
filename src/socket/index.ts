@@ -7,6 +7,6 @@ const options = {
     transports: ["websocket"],
 };
 
-const socket = io("http://localhost:4000/", options);
+const socket = io("http://localhost:5500/", options);
 
 export default socket;

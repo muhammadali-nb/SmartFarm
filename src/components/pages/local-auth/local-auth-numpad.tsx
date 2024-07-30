@@ -33,7 +33,6 @@ const LocalAuthNumpad = () => {
 		0,
 		"del",
 	];
-	
 	useEffect(() => {
 		if (isMounted && isBiometricAuth) {
 			handleBiometricAuth();

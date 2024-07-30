@@ -1,17 +1,10 @@
 import { Link } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
-import {
-	StyleSheet,
-	Text,
-	Touchable,
-	TouchableHighlight,
-	View,
-} from "react-native";
-import Button from "src/components/global/button";
+import { StyleSheet, Text, View } from "react-native";
+import "react-native-get-random-values";
 import Container from "src/components/global/container";
 import socket from "src/socket";
 import ACTIONS from "src/socket/actions";
-import "react-native-get-random-values";
 import { v4 } from "uuid";
 
 export default function App() {
@@ -24,21 +17,33 @@ export default function App() {
 				updateRooms(rooms);
 			}
 		});
-	}, []);
+	}, [rootNode.current]);
 
 	return (
 		<View ref={rootNode} style={styles.container}>
 			<Container>
-				<Text>Rooms:</Text>
 				<View>
-					{rooms.map((room) => (
-						<Link key={room} href={`/video-chat/${room}`}>
-							<Text>{room}</Text>
-						</Link>
-					))}
+					<Text>Rooms:</Text>
+					<View>
+						{rooms.map((room) => (
+							<Link key={room} href={`/video-chat/${room}`}>
+								<Text>{room}</Text>
+							</Link>
+						))}
+					</View>
 				</View>
 				<Link href={`/room/${v4()}`} asChild>
-					<Text>Create Room</Text>
+					<Text
+						style={{
+							backgroundColor: "gray",
+							textAlign: "center",
+							paddingVertical: 10,
+							color: "white",
+							fontWeight: 600,
+							fontSize: 16,
+						}}>
+						Create Room
+					</Text>
 				</Link>
 			</Container>
 		</View>

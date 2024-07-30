@@ -1,7 +1,7 @@
-//@ts-nocheck
+
 import { View, Text, Alert } from "react-native";
 import { forwardRef, useCallback, useLayoutEffect, useState } from "react";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetProps } from "@gorhom/bottom-sheet";
 
 import CustomBackdrop from "src/components/global/custom-backdrop";
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
@@ -17,11 +17,8 @@ import { tokens } from "src/localization/tokens";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-interface IProps {
-	title?: string;
-}
 
-const ProfilelanguageBottomSheet = forwardRef<BottomSheet, IProps>(
+const ProfilelanguageBottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
 	(props, ref) => {
 		const { i18n, t } = useTranslation();
 		const [selected, setSelected] = useState<"ru" | "uz">("uz");
@@ -36,6 +33,7 @@ const ProfilelanguageBottomSheet = forwardRef<BottomSheet, IProps>(
 				await i18n.changeLanguage(language);
 				const message = t(tokens.common.languageChanged) as string;
 				Alert.alert(message);
+				//@ts-ignore
 				ref.current?.close();
 				await AsyncStorage.setItem("defaultLanguage", language);
 			},
@@ -57,6 +55,7 @@ const ProfilelanguageBottomSheet = forwardRef<BottomSheet, IProps>(
 					{...props}
 					disappearsOnIndex={-1}
 					appearsOnIndex={0}
+					//@ts-ignore
 					onPress={() => ref.current?.close()}
 				/>
 			),

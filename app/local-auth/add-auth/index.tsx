@@ -4,10 +4,11 @@ import * as SecureStore from "expo-secure-store";
 import { router } from "expo-router";
 import LocalAuthInput from "src/components/pages/local-auth/local-auth-input";
 import Button from "src/components/global/button";
+import { useLocalAuth } from "src/hooks/use-local-auth";
 
 const AddLocalAuth = () => {
 	const [password, setPassword] = useState("");
-
+	const { toggleLocalAuth } = useLocalAuth();
 	const handleSavePassword = async () => {
 		if (password === "") {
 			Alert.alert("Ошибка", "Пожалуйста, введите пароль");
@@ -16,8 +17,10 @@ const AddLocalAuth = () => {
 		try {
 			await SecureStore.setItemAsync("savedPassword", password);
 			Alert.alert("Успех", "Пароль успешно сохранен");
+			toggleLocalAuth(true);
 			router.push("/home");
 		} catch (error) {
+			toggleLocalAuth(false);
 			Alert.alert("Ошибка", "Не удалось сохранить пароль");
 		}
 	};
